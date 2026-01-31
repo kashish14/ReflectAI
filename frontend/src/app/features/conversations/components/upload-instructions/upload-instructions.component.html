@@ -1,0 +1,11 @@
+<section class="upload-instructions" aria-labelledby="instructions-heading">
+  <h2 id="instructions-heading" class="upload-instructions__title">How it works</h2>
+  <p class="upload-instructions__subtitle">{{ subtitle() }}</p>
+  @if (showTips()) {
+    <ul class="upload-instructions__tips">
+      <li>Max 50,000 characters per conversation</li>
+      <li>One message per line, or use your export format (e.g. CSV)</li>
+      <li>We create the conversation and run analysis, then redirect you to results</li>
+    </ul>
+  }
+</section>

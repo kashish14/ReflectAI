@@ -1,0 +1,28 @@
+.conversation-meta {
+  padding: var(--reflect-spacing-lg);
+  background: var(--reflect-bg-primary);
+  border-radius: var(--reflect-radius-md);
+  border: 1px solid var(--reflect-border);
+}
+
+.conversation-meta__title {
+  margin: 0 0 var(--reflect-spacing-md);
+  font-size: var(--reflect-text-base);
+  font-weight: var(--reflect-font-semibold);
+  color: var(--reflect-text-primary);
+}
+
+.conversation-meta__row {
+  margin: 0 0 var(--reflect-spacing-sm);
+  font-size: var(--reflect-text-sm);
+  color: var(--reflect-text-secondary);
+}
+
+.conversation-meta__code {
+  font-family: var(--reflect-font-mono);
+  font-size: var(--reflect-text-xs);
+  word-break: break-all;
+  background: var(--reflect-bg-tertiary);
+  padding: 2px 6px;
+  border-radius: var(--reflect-radius-sm);
+}

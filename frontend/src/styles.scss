@@ -1,0 +1,82 @@
+/**
+ * ReflectAI — Global design tokens and base styles.
+ * Import in angular.json styles or in root component.
+ */
+:root {
+  /* Spacing */
+  --reflect-spacing-xs: 0.25rem;
+  --reflect-spacing-sm: 0.5rem;
+  --reflect-spacing-md: 1rem;
+  --reflect-spacing-lg: 1.5rem;
+  --reflect-spacing-xl: 2rem;
+  --reflect-spacing-2xl: 3rem;
+
+  /* Radius */
+  --reflect-radius-sm: 6px;
+  --reflect-radius-md: 10px;
+  --reflect-radius-lg: 14px;
+  --reflect-radius-full: 9999px;
+
+  /* Shadows */
+  --reflect-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --reflect-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+  --reflect-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.06);
+
+  /* Typography */
+  --reflect-font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --reflect-font-mono: ui-monospace, monospace;
+  --reflect-text-xs: 0.75rem;
+  --reflect-text-sm: 0.875rem;
+  --reflect-text-base: 1rem;
+  --reflect-text-lg: 1.125rem;
+  --reflect-text-xl: 1.25rem;
+  --reflect-text-2xl: 1.5rem;
+  --reflect-font-medium: 500;
+  --reflect-font-semibold: 600;
+  --reflect-font-bold: 700;
+
+  /* Light theme (default) */
+  --reflect-bg-primary: #ffffff;
+  --reflect-bg-secondary: #f8fafc;
+  --reflect-bg-tertiary: #f1f5f9;
+  --reflect-text-primary: #0f172a;
+  --reflect-text-secondary: #475569;
+  --reflect-text-muted: #94a3b8;
+  --reflect-border: #e2e8f0;
+  --reflect-accent: #3b82f6;
+  --reflect-accent-hover: #2563eb;
+  --reflect-success: #22c55e;
+  --reflect-warning: #f59e0b;
+  --reflect-error: #ef4444;
+  --reflect-sentiment-positive: #22c55e;
+  --reflect-sentiment-neutral: #94a3b8;
+  --reflect-sentiment-negative: #ef4444;
+}
+
+[data-theme='dark'] {
+  --reflect-bg-primary: #0f172a;
+  --reflect-bg-secondary: #1e293b;
+  --reflect-bg-tertiary: #334155;
+  --reflect-text-primary: #f8fafc;
+  --reflect-text-secondary: #cbd5e1;
+  --reflect-text-muted: #64748b;
+  --reflect-border: #334155;
+  --reflect-accent: #60a5fa;
+  --reflect-accent-hover: #93c5fd;
+  --reflect-sentiment-positive: #4ade80;
+  --reflect-sentiment-neutral: #94a3b8;
+  --reflect-sentiment-negative: #f87171;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--reflect-font-sans);
+  font-size: var(--reflect-text-base);
+  color: var(--reflect-text-primary);
+  background-color: var(--reflect-bg-secondary);
+  -webkit-font-smoothing: antialiased;
+}

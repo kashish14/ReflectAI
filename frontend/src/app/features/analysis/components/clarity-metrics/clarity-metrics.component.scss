@@ -1,0 +1,30 @@
+.clarity-metrics {
+  padding: var(--reflect-spacing-lg);
+  background: var(--reflect-bg-primary);
+  border-radius: var(--reflect-radius-md);
+  border: 1px solid var(--reflect-border);
+}
+
+.clarity-metrics__title {
+  margin: 0 0 var(--reflect-spacing-md);
+  font-size: var(--reflect-text-lg);
+  font-weight: var(--reflect-font-semibold);
+  color: var(--reflect-text-primary);
+}
+
+.clarity-metrics__score {
+  margin: 0 0 var(--reflect-spacing-sm);
+  font-size: var(--reflect-text-base);
+  color: var(--reflect-text-secondary);
+}
+
+.clarity-metrics__flags {
+  margin: 0;
+  padding-left: var(--reflect-spacing-lg);
+  font-size: var(--reflect-text-sm);
+  color: var(--reflect-text-muted);
+}
+
+.clarity-metrics__flag {
+  margin-bottom: var(--reflect-spacing-xs);
+}

@@ -1,0 +1,96 @@
+.analysis-detail-page {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.analysis-detail-page__title {
+  margin: 0 0 var(--reflect-spacing-lg);
+  font-size: var(--reflect-text-2xl);
+  font-weight: var(--reflect-font-bold);
+  color: var(--reflect-text-primary);
+}
+
+.analysis-detail-page__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--reflect-spacing-lg);
+  margin-bottom: var(--reflect-spacing-xl);
+}
+
+.analysis-detail-page__id {
+  font-family: var(--reflect-font-mono);
+  font-size: var(--reflect-text-sm);
+  color: var(--reflect-text-secondary);
+}
+
+.analysis-detail-page__chart {
+  margin-top: var(--reflect-spacing-xl);
+}
+
+.analysis-detail-page__date {
+  font-size: var(--reflect-text-sm);
+  color: var(--reflect-text-muted);
+}
+
+.analysis-detail-page__section-title {
+  margin: 0 0 var(--reflect-spacing-md);
+  font-size: var(--reflect-text-lg);
+  font-weight: var(--reflect-font-semibold);
+  color: var(--reflect-text-primary);
+}
+
+.analysis-detail-page__text {
+  margin: 0;
+  font-size: var(--reflect-text-base);
+  color: var(--reflect-text-secondary);
+}
+
+.analysis-detail-page__behavioral {
+  padding: var(--reflect-spacing-lg);
+  background: var(--reflect-bg-primary);
+  border-radius: var(--reflect-radius-md);
+  border: 1px solid var(--reflect-border);
+  margin-top: var(--reflect-spacing-xl);
+}
+
+.analysis-detail-page__chart-desc {
+  margin: 0 0 var(--reflect-spacing-md);
+  font-size: var(--reflect-text-sm);
+  color: var(--reflect-text-secondary);
+}
+
+.analysis-detail-page__chart-title {
+  margin: 0 0 var(--reflect-spacing-sm);
+  font-size: var(--reflect-text-lg);
+  font-weight: var(--reflect-font-semibold);
+  color: var(--reflect-text-primary);
+}
+
+.analysis-detail-page__nav {
+  display: flex;
+  gap: var(--reflect-spacing-lg);
+  margin-top: var(--reflect-spacing-xl);
+  flex-wrap: wrap;
+}
+
+.analysis-detail-page__error,
+.analysis-detail-page__empty {
+  margin: 0 0 var(--reflect-spacing-lg);
+  color: var(--reflect-text-secondary);
+  font-size: var(--reflect-text-sm);
+}
+
+.analysis-detail-page__error {
+  color: var(--reflect-error);
+}
+
+.analysis-detail-page__back {
+  display: inline-block;
+  margin-top: var(--reflect-spacing-xl);
+  font-size: var(--reflect-text-sm);
+  color: var(--reflect-accent);
+  text-decoration: none;
+}
+.analysis-detail-page__back:hover {
+  text-decoration: underline;
+}

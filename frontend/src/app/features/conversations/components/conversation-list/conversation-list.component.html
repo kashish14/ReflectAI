@@ -1,0 +1,22 @@
+<div class="conversation-list">
+  <h1 class="conversation-list__title">Conversations</h1>
+  <p class="conversation-list__subtitle">Your uploaded conversations. Use "New conversation" to add one.</p>
+
+  @if (loading()) {
+    <p class="conversation-list__empty">Loading…</p>
+  } @else if (conversations().length === 0) {
+    <p class="conversation-list__empty">No conversations yet. Use the sidebar to open <strong>New conversation</strong>.</p>
+  } @else {
+    <ul class="conversation-list__ul">
+      @for (c of conversations(); track c.id) {
+        <li class="conversation-list__li">
+          <a [routerLink]="['/conversations', c.id]" class="conversation-list__card">
+            <span class="conversation-list__id">{{ c.id.slice(0, 8) }}…</span>
+            <span class="conversation-list__meta">{{ formatDate(c.created_at) }} · {{ c.source }}</span>
+            <span class="conversation-list__action">View →</span>
+          </a>
+        </li>
+      }
+    </ul>
+  }
+</div>

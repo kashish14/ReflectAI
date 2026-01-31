@@ -1,0 +1,15 @@
+<section class="conversation-analysis-action" aria-labelledby="action-heading">
+  <h2 id="action-heading" class="conversation-analysis-action__title">Analysis</h2>
+  <p class="conversation-analysis-action__desc">{{ description() }}</p>
+  <button
+    type="button"
+    class="conversation-analysis-action__btn"
+    [disabled]="analyzing()"
+    (click)="onStart()"
+  >
+    {{ analyzing() ? 'Starting analysis…' : 'Analyze conversation' }}
+  </button>
+  @if (errorMessage()) {
+    <p class="conversation-analysis-action__error">{{ errorMessage() }}</p>
+  }
+</section>

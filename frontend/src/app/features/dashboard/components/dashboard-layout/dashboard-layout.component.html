@@ -1,0 +1,16 @@
+<div class="dashboard-layout">
+  <header class="dashboard-layout__header">
+    <h1 class="dashboard-layout__title">{{ pageTitle() }}</h1>
+    <p class="dashboard-layout__subtitle">Understand how you communicate</p>
+  </header>
+
+  @if (showPrivacySlot()) {
+    <div class="dashboard-layout__privacy">
+      <ng-content select="[privacy]" />
+    </div>
+  }
+
+  <div class="dashboard-layout__content">
+    <ng-content />
+  </div>
+</div>

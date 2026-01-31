@@ -1,0 +1,11 @@
+{
+  "valid": {
+    "content": "Test message one.\nTest message two.\nTest message three."
+  },
+  "minimal": {
+    "content": "Hello."
+  },
+  "empty_content_rejected": {
+    "content": ""
+  }
+}

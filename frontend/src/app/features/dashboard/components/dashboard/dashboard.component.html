@@ -1,0 +1,14 @@
+<app-dashboard-layout pageTitle="Dashboard" [showPrivacySlot]="!privacyDismissed()">
+  @if (!privacyDismissed()) {
+    <app-privacy-notice
+      variant="banner"
+      [dismissible]="true"
+      (dismissed)="onPrivacyDismissed()"
+      privacy
+    />
+  }
+
+  <app-analytics-overview [overview]="overview()" />
+  <app-trend-charts [data]="trendData()" title="Sentiment over time" />
+  <app-recent-analyses [items]="overview()?.recent_analyses ?? []" [loading]="loading()" />
+</app-dashboard-layout>

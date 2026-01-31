@@ -1,0 +1,15 @@
+@if (analysis()?.results?.clarity; as clarity) {
+  <section class="clarity-metrics" aria-labelledby="clarity-heading">
+    <h2 id="clarity-heading" class="clarity-metrics__title">Clarity</h2>
+    @if (clarity.readability != null) {
+      <p class="clarity-metrics__score">Readability: {{ clarity.readability }} / 10</p>
+    }
+    @if (clarity.flags?.length) {
+      <ul class="clarity-metrics__flags">
+        @for (flag of clarity.flags; track flag) {
+          <li class="clarity-metrics__flag">{{ flag }}</li>
+        }
+      </ul>
+    }
+  </section>
+}

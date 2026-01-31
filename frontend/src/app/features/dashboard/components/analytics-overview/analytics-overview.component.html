@@ -1,0 +1,33 @@
+<section class="analytics-overview" aria-labelledby="overview-heading">
+  <h2 id="overview-heading" class="analytics-overview__title">Insights at a glance</h2>
+  @if (overview(); as o) {
+    <div class="analytics-overview__cards">
+      <app-insight-card
+        title="Analyses"
+        [value]="o.analyses_count + ' total'"
+        trend="neutral"
+        trendLabel="all time"
+        icon="📊"
+        variant="default"
+      />
+      <app-insight-card
+        title="Completed"
+        [value]="o.completed_count + ' done'"
+        [trend]="o.completed_count > 0 ? 'up' : 'neutral'"
+        trendLabel="ready for insights"
+        icon="✅"
+        variant="positive"
+      />
+      <app-insight-card
+        title="Completion rate"
+        [value]="completionRate(o) + '%'"
+        trend="neutral"
+        trendLabel="readability"
+        icon="✨"
+        variant="default"
+      />
+    </div>
+  } @else {
+    <p class="analytics-overview__empty">Loading overview…</p>
+  }
+</section>

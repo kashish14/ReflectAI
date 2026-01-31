@@ -1,0 +1,6 @@
+<div class="analysis-status" [attr.data-status]="status()">
+  <span class="analysis-status__badge">{{ status() }}</span>
+  @if (message()) {
+    <span class="analysis-status__message">{{ message() }}</span>
+  }
+</div>

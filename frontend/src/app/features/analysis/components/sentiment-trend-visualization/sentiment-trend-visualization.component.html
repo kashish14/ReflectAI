@@ -1,0 +1,31 @@
+<div class="sentiment-trend" [attr.aria-label]="title()" role="img">
+  <h3 class="sentiment-trend__title">{{ title() }}</h3>
+  <div class="sentiment-trend__chart" [style.--bar-height]="barHeight()">
+    @for (point of data(); track point.label) {
+      <div class="sentiment-trend__bar-wrap">
+        <div class="sentiment-trend__bar" aria-hidden="true">
+          <span
+            class="sentiment-trend__segment sentiment-trend__segment--positive"
+            [style.height.%]="100 * positiveRatio(point)"
+          ></span>
+          <span
+            class="sentiment-trend__segment sentiment-trend__segment--neutral"
+            [style.height.%]="100 * neutralRatio(point)"
+          ></span>
+          <span
+            class="sentiment-trend__segment sentiment-trend__segment--negative"
+            [style.height.%]="100 * negativeRatio(point)"
+          ></span>
+        </div>
+        @if (showLabels()) {
+          <span class="sentiment-trend__label">{{ point.label }}</span>
+        }
+      </div>
+    }
+  </div>
+  <div class="sentiment-trend__legend" aria-hidden="true">
+    <span class="sentiment-trend__legend-item sentiment-trend__legend-item--positive">Positive</span>
+    <span class="sentiment-trend__legend-item sentiment-trend__legend-item--neutral">Neutral</span>
+    <span class="sentiment-trend__legend-item sentiment-trend__legend-item--negative">Negative</span>
+  </div>
+</div>

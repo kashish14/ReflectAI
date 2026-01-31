@@ -1,0 +1,21 @@
+<section class="recent-analyses" aria-labelledby="recent-heading">
+  <h2 id="recent-heading" class="recent-analyses__title">Recent analyses</h2>
+  @if (loading()) {
+    <p class="recent-analyses__empty">Loading…</p>
+  } @else if (items().length === 0) {
+    <p class="recent-analyses__empty">No analyses yet. Upload a conversation to get started.</p>
+  } @else {
+    <ul class="recent-analyses__list">
+      @for (item of items(); track item.id) {
+        <li class="recent-analyses__item">
+          <a [routerLink]="['/analysis', item.id]" class="recent-analyses__link">
+            <span class="recent-analyses__id">{{ item.id.slice(0, 8) }}…</span>
+            <span class="recent-analyses__meta">
+              {{ formatDate(item.created_at) }} · {{ item.status }}
+            </span>
+          </a>
+        </li>
+      }
+    </ul>
+  }
+</section>

@@ -1,0 +1,18 @@
+@if (analysis()?.results?.sentiment; as sent) {
+  <section class="sentiment-summary" aria-labelledby="sentiment-heading">
+    <h2 id="sentiment-heading" class="sentiment-summary__title">Sentiment</h2>
+    @if (sent.aggregate) {
+      <p class="sentiment-summary__aggregate">{{ sent.aggregate }}</p>
+    }
+    @if (sent.emotional_labels?.length) {
+      <div class="sentiment-summary__labels">
+        @for (label of sent.emotional_labels; track label) {
+          <span class="sentiment-summary__tag">{{ label }}</span>
+        }
+      </div>
+    }
+    @if (sent.scores?.length) {
+      <p class="sentiment-summary__count">{{ sent.scores?.length ?? 0 }} message(s) analyzed.</p>
+    }
+  </section>
+}
