@@ -1,0 +1,6 @@
+<section class="conversation-meta" aria-labelledby="meta-heading">
+  <h2 id="meta-heading" class="conversation-meta__title">Details</h2>
+  <p class="conversation-meta__row"><strong>ID</strong> <code class="conversation-meta__code" [title]="id()">{{ id() }}</code></p>
+  <p class="conversation-meta__row"><strong>Created</strong> {{ formatDate(createdAt()) }}</p>
+  <p class="conversation-meta__row"><strong>Source</strong> {{ source() }}</p>
+</section>

@@ -1,0 +1,12 @@
+.trend-charts {
+  display: flex;
+  flex-direction: column;
+  gap: var(--reflect-spacing-md);
+}
+
+.trend-charts__title {
+  margin: 0;
+  font-size: var(--reflect-text-lg);
+  font-weight: var(--reflect-font-semibold);
+  color: var(--reflect-text-primary);
+}

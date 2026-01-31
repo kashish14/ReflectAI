@@ -1,0 +1,112 @@
+:host {
+  display: block;
+}
+
+.sentiment-trend {
+  --bar-height: 120px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--reflect-spacing-md);
+  padding: var(--reflect-spacing-lg);
+  background: var(--reflect-bg-primary);
+  border: 1px solid var(--reflect-border);
+  border-radius: var(--reflect-radius-lg);
+  box-shadow: var(--reflect-shadow-sm);
+}
+
+.sentiment-trend__title {
+  margin: 0;
+  font-size: var(--reflect-text-base);
+  font-weight: var(--reflect-font-semibold);
+  color: var(--reflect-text-primary);
+}
+
+.sentiment-trend__chart {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--reflect-spacing-sm);
+  min-height: var(--bar-height);
+}
+
+.sentiment-trend__bar-wrap {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--reflect-spacing-xs);
+}
+
+.sentiment-trend__bar {
+  width: 100%;
+  height: var(--bar-height);
+  display: flex;
+  flex-direction: column-reverse;
+  border-radius: var(--reflect-radius-sm);
+  overflow: hidden;
+  background: var(--reflect-bg-tertiary);
+}
+
+.sentiment-trend__segment {
+  width: 100%;
+  min-height: 2px;
+  transition: height 0.3s ease;
+
+  &--positive {
+    background: var(--reflect-sentiment-positive);
+  }
+
+  &--neutral {
+    background: var(--reflect-sentiment-neutral);
+  }
+
+  &--negative {
+    background: var(--reflect-sentiment-negative);
+  }
+}
+
+.sentiment-trend__label {
+  font-size: var(--reflect-text-xs);
+  color: var(--reflect-text-muted);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.sentiment-trend__legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--reflect-spacing-lg);
+  padding-top: var(--reflect-spacing-sm);
+  border-top: 1px solid var(--reflect-border);
+}
+
+.sentiment-trend__legend-item {
+  font-size: var(--reflect-text-xs);
+  color: var(--reflect-text-secondary);
+  display: flex;
+  align-items: center;
+  gap: var(--reflect-spacing-xs);
+
+  &::before {
+    content: '';
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+  }
+
+  &--positive::before {
+    background: var(--reflect-sentiment-positive);
+  }
+
+  &--neutral::before {
+    background: var(--reflect-sentiment-neutral);
+  }
+
+  &--negative::before {
+    background: var(--reflect-sentiment-negative);
+  }
+}

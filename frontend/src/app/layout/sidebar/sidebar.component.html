@@ -1,0 +1,19 @@
+<nav class="sidebar" aria-label="Main navigation">
+  <ul class="sidebar__list">
+    @for (item of navItems; track item.route) {
+      <li class="sidebar__item">
+        <a
+          [routerLink]="item.route"
+          routerLinkActive="sidebar__link--active"
+          [routerLinkActiveOptions]="{ exact: item.route === '/dashboard' }"
+          class="sidebar__link"
+        >
+          @if (item.icon) {
+            <span class="sidebar__icon" aria-hidden="true">{{ item.icon }}</span>
+          }
+          <span class="sidebar__label">{{ item.label }}</span>
+        </a>
+      </li>
+    }
+  </ul>
+</nav>

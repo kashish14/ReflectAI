@@ -1,0 +1,40 @@
+.sentiment-summary {
+  padding: var(--reflect-spacing-lg);
+  background: var(--reflect-bg-primary);
+  border-radius: var(--reflect-radius-md);
+  border: 1px solid var(--reflect-border);
+}
+
+.sentiment-summary__title {
+  margin: 0 0 var(--reflect-spacing-md);
+  font-size: var(--reflect-text-lg);
+  font-weight: var(--reflect-font-semibold);
+  color: var(--reflect-text-primary);
+}
+
+.sentiment-summary__aggregate {
+  margin: 0 0 var(--reflect-spacing-md);
+  font-size: var(--reflect-text-base);
+  color: var(--reflect-text-secondary);
+}
+
+.sentiment-summary__labels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--reflect-spacing-sm);
+  margin-bottom: var(--reflect-spacing-sm);
+}
+
+.sentiment-summary__tag {
+  padding: var(--reflect-spacing-xs) var(--reflect-spacing-sm);
+  background: var(--reflect-bg-tertiary);
+  border-radius: var(--reflect-radius-sm);
+  font-size: var(--reflect-text-sm);
+  color: var(--reflect-text-primary);
+}
+
+.sentiment-summary__count {
+  margin: 0;
+  font-size: var(--reflect-text-sm);
+  color: var(--reflect-text-muted);
+}

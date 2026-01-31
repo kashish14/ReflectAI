@@ -1,0 +1,98 @@
+:host {
+  display: block;
+}
+
+.privacy-notice {
+  --notice-bg: #eff6ff;
+  --notice-border: #93c5fd;
+  --notice-text: #1e40af;
+
+  &--banner {
+    padding: var(--reflect-spacing-md);
+    background: var(--notice-bg);
+    border: 1px solid var(--notice-border);
+    border-radius: var(--reflect-radius-md);
+  }
+
+  &--modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--reflect-spacing-lg);
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
+
+    .privacy-notice__inner {
+      max-width: 420px;
+      padding: var(--reflect-spacing-xl);
+      background: var(--reflect-bg-primary);
+      border: 1px solid var(--reflect-border);
+      border-radius: var(--reflect-radius-lg);
+      box-shadow: var(--reflect-shadow-lg);
+    }
+  }
+}
+
+.privacy-notice__inner {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--reflect-spacing-md);
+  position: relative;
+}
+
+.privacy-notice__icon {
+  flex-shrink: 0;
+  font-size: var(--reflect-text-xl);
+  line-height: 1;
+}
+
+.privacy-notice__content {
+  flex: 1;
+  min-width: 0;
+}
+
+.privacy-notice__title {
+  margin: 0 0 var(--reflect-spacing-xs);
+  font-size: var(--reflect-text-base);
+  font-weight: var(--reflect-font-semibold);
+  color: var(--reflect-text-primary);
+}
+
+.privacy-notice__message {
+  margin: 0;
+  font-size: var(--reflect-text-sm);
+  color: var(--reflect-text-secondary);
+  line-height: 1.5;
+}
+
+.privacy-notice__dismiss {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  border-radius: var(--reflect-radius-sm);
+  background: transparent;
+  color: var(--reflect-text-muted);
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+
+  &:hover {
+    background: var(--reflect-bg-tertiary);
+    color: var(--reflect-text-primary);
+  }
+}
+
+[data-theme='dark'] .privacy-notice--banner {
+  --notice-bg: #1e3a5f;
+  --notice-border: #2563eb;
+  --notice-text: #93c5fd;
+}

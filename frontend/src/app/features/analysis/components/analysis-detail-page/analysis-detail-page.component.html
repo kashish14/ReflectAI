@@ -1,0 +1,52 @@
+<div class="analysis-detail-page">
+  <h1 class="analysis-detail-page__title">Analysis</h1>
+
+  @if (loading() && !analysis()) {
+    <p class="analysis-detail-page__empty">Loading…</p>
+  } @else if (error()) {
+    <p class="analysis-detail-page__error">{{ error() }}</p>
+    <a routerLink="/dashboard" class="analysis-detail-page__back">← Dashboard</a>
+  } @else if (analysis()) {
+    <div class="analysis-detail-page__meta">
+      <span class="analysis-detail-page__id" title="{{ analysis()!.id }}">ID: {{ analysis()!.id.slice(0, 8) }}…</span>
+      <app-analysis-status [status]="analysis()!.status" />
+      <span class="analysis-detail-page__date">Created {{ formatDate(analysis()!.created_at) }}</span>
+      @if (analysis()!.completed_at) {
+        <span class="analysis-detail-page__date">Completed {{ formatDate(analysis()!.completed_at!) }}</span>
+      }
+    </div>
+
+    @if (analysis()!.status === 'completed') {
+      <app-sentiment-summary [analysis]="analysis()" />
+      <app-clarity-metrics [analysis]="analysis()" />
+      @if (analysis()!.results?.behavioral?.message_length_avg != null) {
+        <section class="analysis-detail-page__behavioral" aria-labelledby="behavioral-heading">
+          <h2 id="behavioral-heading" class="analysis-detail-page__section-title">Behavioral</h2>
+          <p class="analysis-detail-page__text">Average message length: {{ analysis()!.results!.behavioral!.message_length_avg | number:'1.0-0' }} characters.</p>
+        </section>
+      }
+      <section class="analysis-detail-page__chart" aria-labelledby="chart-heading">
+        <h2 id="chart-heading" class="analysis-detail-page__chart-title">Sentiment by message</h2>
+        <p class="analysis-detail-page__chart-desc">Each bar is one message. Green = positive, gray = neutral, red = negative.</p>
+        @if (trendPoints().length) {
+          <app-sentiment-trend-visualization
+            [data]="trendPoints()"
+            title="Message sentiment"
+            [showLabels]="true"
+            barHeight="24px"
+          />
+        } @else {
+          <p class="analysis-detail-page__empty">No per-message sentiment data for this analysis.</p>
+        }
+      </section>
+    }
+
+    <nav class="analysis-detail-page__nav" aria-label="Analysis navigation">
+      <a routerLink="/dashboard" class="analysis-detail-page__back">← Dashboard</a>
+      <a routerLink="/conversations" class="analysis-detail-page__back">Conversations</a>
+    </nav>
+  } @else {
+    <p class="analysis-detail-page__empty">Analysis not found.</p>
+    <a routerLink="/dashboard" class="analysis-detail-page__back">← Dashboard</a>
+  }
+</div>

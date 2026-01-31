@@ -1,0 +1,37 @@
+<div class="conversation-detail-page">
+  <h1 class="conversation-detail-page__title">Conversation</h1>
+  <p class="conversation-detail-page__subtitle">View details and run sentiment and clarity analysis.</p>
+
+  @if (loading()) {
+    <p class="conversation-detail-page__empty">Loading…</p>
+  } @else if (error()) {
+    <p class="conversation-detail-page__error">{{ error() }}</p>
+    <nav class="conversation-detail-page__nav" aria-label="Navigation">
+      <a routerLink="/conversations" class="conversation-detail-page__back">← Back to list</a>
+      <a routerLink="/dashboard" class="conversation-detail-page__back">Dashboard</a>
+    </nav>
+  } @else if (conversation()) {
+    <div class="conversation-detail-page__card">
+      <app-conversation-meta
+        [id]="conversation()!.id"
+        [createdAt]="conversation()!.created_at"
+        [source]="conversation()!.source"
+      />
+      <app-conversation-analysis-action
+        [analyzing]="analyzing()"
+        [errorMessage]="error()"
+        (startAnalysis)="startAnalysis()"
+      />
+    </div>
+    <nav class="conversation-detail-page__nav" aria-label="Navigation">
+      <a routerLink="/conversations" class="conversation-detail-page__back">← Back to list</a>
+      <a routerLink="/dashboard" class="conversation-detail-page__back">Dashboard</a>
+    </nav>
+  } @else {
+    <p class="conversation-detail-page__empty">Conversation not found.</p>
+    <nav class="conversation-detail-page__nav" aria-label="Navigation">
+      <a routerLink="/conversations" class="conversation-detail-page__back">← Back to list</a>
+      <a routerLink="/dashboard" class="conversation-detail-page__back">Dashboard</a>
+    </nav>
+  }
+</div>

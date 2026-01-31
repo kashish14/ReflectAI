@@ -1,0 +1,13 @@
+.upload-hint {
+  margin: var(--reflect-spacing-lg) 0 0;
+  font-size: var(--reflect-text-sm);
+  color: var(--reflect-text-secondary);
+}
+
+.upload-hint__link {
+  color: var(--reflect-accent);
+  text-decoration: none;
+}
+.upload-hint__link:hover {
+  text-decoration: underline;
+}

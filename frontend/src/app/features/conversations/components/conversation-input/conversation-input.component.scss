@@ -1,0 +1,110 @@
+:host {
+  display: block;
+}
+
+.conversation-input {
+  display: flex;
+  flex-direction: column;
+  gap: var(--reflect-spacing-md);
+  padding: var(--reflect-spacing-lg);
+  background: var(--reflect-bg-primary);
+  border: 1px solid var(--reflect-border);
+  border-radius: var(--reflect-radius-lg);
+  box-shadow: var(--reflect-shadow-sm);
+}
+
+.conversation-input__label {
+  font-size: var(--reflect-text-sm);
+  font-weight: var(--reflect-font-medium);
+  color: var(--reflect-text-primary);
+}
+
+.conversation-input__textarea {
+  width: 100%;
+  min-height: 160px;
+  padding: var(--reflect-spacing-md);
+  font-family: var(--reflect-font-mono);
+  font-size: var(--reflect-text-sm);
+  line-height: 1.6;
+  color: var(--reflect-text-primary);
+  background: var(--reflect-bg-secondary);
+  border: 1px solid var(--reflect-border);
+  border-radius: var(--reflect-radius-md);
+  resize: vertical;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+  &::placeholder {
+    color: var(--reflect-text-muted);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--reflect-accent);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+  }
+}
+
+.conversation-input__meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--reflect-spacing-sm);
+}
+
+.conversation-input__hint {
+  font-size: var(--reflect-text-xs);
+  color: var(--reflect-text-muted);
+}
+
+.conversation-input__count {
+  font-size: var(--reflect-text-xs);
+  color: var(--reflect-text-secondary);
+
+  &--over {
+    color: var(--reflect-error);
+    font-weight: var(--reflect-font-medium);
+  }
+}
+
+.conversation-input__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--reflect-spacing-sm);
+}
+
+.conversation-input__btn {
+  padding: var(--reflect-spacing-sm) var(--reflect-spacing-lg);
+  font-size: var(--reflect-text-sm);
+  font-weight: var(--reflect-font-medium);
+  border-radius: var(--reflect-radius-md);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+
+  &--primary {
+    border: none;
+    background: var(--reflect-accent);
+    color: white;
+
+    &:hover:not(:disabled) {
+      background: var(--reflect-accent-hover);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  &--secondary {
+    border: 1px solid var(--reflect-border);
+    background: transparent;
+    color: var(--reflect-text-secondary);
+
+    &:hover {
+      background: var(--reflect-bg-tertiary);
+      color: var(--reflect-text-primary);
+    }
+  }
+}

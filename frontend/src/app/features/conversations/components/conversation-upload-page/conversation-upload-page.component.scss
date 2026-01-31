@@ -1,0 +1,28 @@
+.conversation-upload-page {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.conversation-upload-page__title {
+  margin: 0 0 var(--reflect-spacing-sm);
+  font-size: var(--reflect-text-2xl);
+  font-weight: var(--reflect-font-bold);
+  color: var(--reflect-text-primary);
+}
+
+.conversation-upload-page__form-title {
+  margin: 0 0 var(--reflect-spacing-md);
+  font-size: var(--reflect-text-lg);
+  font-weight: var(--reflect-font-semibold);
+  color: var(--reflect-text-primary);
+}
+
+.conversation-upload-page__error {
+  margin: 0 0 var(--reflect-spacing-md);
+  color: var(--reflect-error);
+  font-size: var(--reflect-text-sm);
+}
+
+.conversation-upload-page__form {
+  margin-bottom: var(--reflect-spacing-lg);
+}

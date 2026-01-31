@@ -1,0 +1,18 @@
+{
+  "name": "reflectai",
+  "version": "1.0.0",
+  "private": true,
+  "description": "ReflectAI — privacy-first AI platform for conversation insights",
+  "scripts": {
+    "install:all": "npm run install:backend && npm run install:frontend && npm run install:analytics",
+    "install:backend": "cd backend && npm install",
+    "install:frontend": "cd frontend && npm install",
+    "install:analytics": "cd analytics-engine && npm install",
+    "build:backend": "cd backend && npm run build",
+    "build:frontend": "cd frontend && npm run build",
+    "build:analytics": "cd analytics-engine && npm run build",
+    "build:all": "npm run build:analytics && npm run build:backend && npm run build:frontend",
+    "start:backend": "cd backend && npm start",
+    "start:frontend": "cd frontend && npm start"
+  }
+}

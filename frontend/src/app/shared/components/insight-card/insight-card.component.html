@@ -1,0 +1,40 @@
+<a
+  *ngIf="link(); else cardBlock"
+  [href]="link()!"
+  class="insight-card insight-card--link insight-card--{{ variant() }}"
+  tabindex="0"
+>
+  <ng-container *ngTemplateOutlet="cardContent"></ng-container>
+</a>
+<ng-template #cardBlock>
+  <div class="insight-card insight-card--{{ variant() }}">
+    <ng-container *ngTemplateOutlet="cardContent"></ng-container>
+  </div>
+</ng-template>
+
+<ng-template #cardContent>
+  <div class="insight-card__header">
+    @if (icon()) {
+      <span class="insight-card__icon" aria-hidden="true">{{ icon() }}</span>
+    }
+    <h3 class="insight-card__title">{{ title() }}</h3>
+  </div>
+  <p class="insight-card__value">{{ value() }}</p>
+  @if (subtitle()) {
+    <p class="insight-card__subtitle">{{ subtitle() }}</p>
+  }
+  @if (trend(); as t) {
+    <div class="insight-card__trend" [attr.data-trend]="t">
+      <span class="insight-card__trend-icon" aria-hidden="true">
+        @switch (t) {
+          @case ('up') { ↑ }
+          @case ('down') { ↓ }
+          @case ('neutral') { → }
+        }
+      </span>
+      @if (trendLabel()) {
+        <span class="insight-card__trend-label">{{ trendLabel() }}</span>
+      }
+    </div>
+  }
+</ng-template>

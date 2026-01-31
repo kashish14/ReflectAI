@@ -1,0 +1,16 @@
+<div class="conversation-upload-page">
+  <h1 class="conversation-upload-page__title">New conversation</h1>
+  <app-upload-instructions />
+  @if (error) {
+    <p class="conversation-upload-page__error">{{ error }}</p>
+  }
+  <section class="conversation-upload-page__form" aria-labelledby="form-heading">
+    <h2 id="form-heading" class="conversation-upload-page__form-title">Paste your text</h2>
+    <app-conversation-input
+      [submitting]="submitting"
+      (submitted)="onSubmitted($event)"
+      (cancelled)="onCancelled()"
+    />
+  </section>
+  <app-upload-hint />
+</div>

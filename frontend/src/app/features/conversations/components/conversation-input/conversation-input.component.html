@@ -1,0 +1,47 @@
+<div class="conversation-input" role="form" aria-label="Conversation input">
+  <label for="conversation-content" class="conversation-input__label">
+    Conversation text
+  </label>
+  <textarea
+    id="conversation-content"
+    class="conversation-input__textarea"
+    [placeholder]="placeholder()"
+    [maxLength]="maxLength()"
+    [value]="content()"
+    (input)="content.set($any($event.target).value)"
+    rows="8"
+    aria-describedby="conversation-hint conversation-count"
+  ></textarea>
+  <div class="conversation-input__meta">
+    <span id="conversation-hint" class="conversation-input__hint">
+      Your data is processed only when you submit. We do not store raw content unless you opt in.
+    </span>
+    <span
+      id="conversation-count"
+      class="conversation-input__count"
+      [class.conversation-input__count--over]="isOverLimit()"
+      aria-live="polite"
+    >
+      {{ characterCount() | number }} / {{ maxLength() | number }} characters
+    </span>
+  </div>
+  <div class="conversation-input__actions">
+    @if (showCancel()) {
+      <button
+        type="button"
+        class="conversation-input__btn conversation-input__btn--secondary"
+        (click)="onCancel()"
+      >
+        Clear
+      </button>
+    }
+    <button
+      type="button"
+      class="conversation-input__btn conversation-input__btn--primary"
+      [disabled]="!canSubmit()"
+      (click)="onSubmit()"
+    >
+      {{ submitting() ? 'Uploading…' : submitLabel() }}
+    </button>
+  </div>
+</div>

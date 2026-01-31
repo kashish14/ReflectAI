@@ -1,0 +1,38 @@
+.analysis-status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--reflect-spacing-sm);
+}
+
+.analysis-status__badge {
+  padding: var(--reflect-spacing-xs) var(--reflect-spacing-md);
+  border-radius: var(--reflect-radius-full);
+  font-size: var(--reflect-text-sm);
+  font-weight: var(--reflect-font-semibold);
+  text-transform: capitalize;
+}
+
+.analysis-status[data-status='pending'] .analysis-status__badge {
+  background: var(--reflect-bg-tertiary);
+  color: var(--reflect-text-secondary);
+}
+
+.analysis-status[data-status='running'] .analysis-status__badge {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.analysis-status[data-status='completed'] .analysis-status__badge {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.analysis-status[data-status='failed'] .analysis-status__badge {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.analysis-status__message {
+  font-size: var(--reflect-text-sm);
+  color: var(--reflect-text-secondary);
+}
