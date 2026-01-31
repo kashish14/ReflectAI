@@ -2,13 +2,13 @@
 
 **Understand how you communicate—without giving up control of your data.**
 
-ReflectAI is a privacy-first AI platform that analyzes conversational data to surface emotional patterns, communication clarity, and behavioral trends. Built for individuals, teams, and organizations who want actionable insight into how they communicate—without sending sensitive data to opaque third-party clouds.
+ReflectAI is a **privacy-first AI platform** for understanding *how* people communicate — emotionally, behaviorally, and structurally — without surrendering sensitive data to opaque third-party systems.
 
 ---
 
 ## Product Overview
 
-ReflectAI ingests conversation inputs (messaging threads, meeting transcripts, email, or pasted text) and generates insights across three pillars:
+ReflectAI turns raw conversation data into interpretable signals across three dimensions:
 
 | Pillar | What we surface |
 |--------|------------------|
@@ -20,9 +20,28 @@ The product serves **individual contributors** (self-awareness and growth), **ma
 
 ---
 
+## What This Repository Demonstrates
+
+This repository is intentionally built to demonstrate:
+
+- **Privacy-first AI system design** (no PII in logs, optional raw storage, tenant isolation)
+- **Event-driven, async analysis pipelines** suitable for AI workloads
+- **Scalable modular architecture** that can evolve from a modular monolith to services
+- **Clear separation of product, platform, and AI logic**
+- **Production-minded frontend architecture** (Angular, feature-sliced, observable state)
+- **Explainable analytics over black-box AI**
+- **Enterprise readiness** (auditability, on-prem path, local-first option)
+
+This is not a toy project. It is a realistic foundation for a production product.
+
+---
+
 ## Architecture Summary
 
 ReflectAI uses a **layered, event-driven architecture** with clear boundaries between presentation, orchestration, AI processing, and data. The system is designed to scale horizontally, support optional local-first processing, and keep privacy and auditability first-class.
+
+**Architecture at a glance:**  
+A layered, event-driven system with async AI processing, strict tenant isolation, and privacy-by-design defaults. Built as a modular monolith for MVP velocity, with clean seams for future service extraction.
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -63,6 +82,8 @@ ReflectAI uses a **layered, event-driven architecture** with clear boundaries be
 
 ## Tech Stack
 
+These choices prioritize developer velocity, explainability, and privacy guarantees over black-box scale.
+
 | Layer | Choices |
 |-------|--------|
 | **Frontend** | Angular 18+, TypeScript 5.x, standalone components, feature-sliced structure. Charts: ng2-charts / Chart.js. State: Signals + service-based state. |
@@ -96,6 +117,19 @@ Repositories: **frontend** (Angular SPA), **backend** (Node API + services), **a
 | **2028+** | Ecosystem (white-label, marketplace). Predictive insights (misalignment, burnout, conflict signals). Cross-platform intelligence where users opt in. |
 
 Roadmap is product-led; engineering keeps the architecture ready for local-first, on-prem, and multi-region when the business demands it.
+
+---
+
+## Non-Goals
+
+ReflectAI intentionally does **not** aim to:
+
+- Perform covert surveillance or behavioral scoring without consent
+- Monetize user data via advertising or resale
+- Replace human judgment with opaque AI scores
+- Optimize engagement at the expense of wellbeing
+
+These constraints are deliberate and shape both product and architecture decisions.
 
 ---
 
