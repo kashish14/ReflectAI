@@ -29,4 +29,4 @@ Or with k6: `k6 run conversations.js`.
 
 ## Testing Strategy
 
-Full strategy (unit, integration, AI validation, performance): [docs/TESTING_STRATEGY.md](../docs/TESTING_STRATEGY.md).
+Full strategy (unit, integration, AI validation, performance): [docs/TESTING_STRATEGY.md](../docs/TESTING_STRATEGY.md)
