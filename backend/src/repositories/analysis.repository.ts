@@ -61,6 +61,8 @@ export interface AnalysisRepository {
     userId: string,
     options: { cursor?: string; limit: number }
   ): Promise<{ data: AnalysisRecord[]; next_cursor?: string }>;
+  /** Remove every record owned by this user; returns how many were deleted. */
+  deleteAll(tenantId: string, userId: string): Promise<number>;
 }
 
 const idempotencyMap = new Map<string, string>();
@@ -119,5 +121,12 @@ export const analysisRepository: AnalysisRepository = {
         ? ids[start + options.limit - 1]
         : undefined;
     return { data, next_cursor: nextCursor };
+  },
+
+  async deleteAll(tenantId, userId) {
+    const ids = byTenantUser.get(listKey(tenantId, userId)) ?? [];
+    ids.forEach((id) => store.delete(key(tenantId, userId, id)));
+    byTenantUser.delete(listKey(tenantId, userId));
+    return ids.length;
   },
 };

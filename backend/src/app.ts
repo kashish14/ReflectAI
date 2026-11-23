@@ -26,6 +26,12 @@ export function createApp(): express.Application {
   app.use(express.json({ limit: config.maxConversationSize }));
 
   app.use(observabilityMiddleware);
+
+  // Health check is public (no user context needed).
+  app.get('/health', (_req: Request, res: Response) => {
+    res.json({ status: 'ok', timestamp: new Date().toISOString() });
+  });
+
   app.use(authMiddleware);
   app.use(rateLimitMiddleware);
 
@@ -38,9 +44,6 @@ export function createApp(): express.Application {
   app.use(`${config.apiPrefix}/insights`, createInsightsRouter(insightsService));
   app.use(`${config.apiPrefix}/users`, createUsersRouter());
 
-  app.get('/health', (_req: Request, res: Response) => {
-    res.json({ status: 'ok', timestamp: new Date().toISOString() });
-  });
 
   app.use(errorMiddleware);
 

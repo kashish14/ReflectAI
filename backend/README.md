@@ -31,8 +31,8 @@ Node.js backend for ReflectAI: API routes, conversation processing pipeline, AI 
 | POST | `/v1/analyses` | Create analysis job (body: `{ conversation_id, idempotency_key? }`) |
 | GET | `/v1/analyses/:id` | Get analysis (poll for status/results) |
 | GET | `/v1/insights/overview` | Dashboard overview |
-| POST | `/v1/users/me/export` | Request export (202) |
-| DELETE | `/v1/users/me/data` | Request deletion (202) |
+| POST | `/v1/users/me/export` | Export all of the user's conversations and analyses as JSON |
+| DELETE | `/v1/users/me/data` | Delete all of the user's conversations and analyses |
 | GET | `/health` | Health check |
 
 ## Auth (MVP)
@@ -46,7 +46,7 @@ Replace with JWT/session in production.
 
 ## Privacy
 
-- **Optional raw storage** — Set `STORE_RAW_CONTENT_DEFAULT=true` to persist content; default is false.
+- **Optional raw storage** — Raw content is kept by default outside production (needed to run analysis later); set `STORE_RAW_CONTENT_DEFAULT=false` to disable.
 - **Content hash** — SHA-256 for dedup; never log content.
 - **Ephemeral AI** — Content passed to AI in memory only; not logged by AI layer.
 - **Tenant isolation** — All queries scoped by `tenant_id` / `user_id`.
@@ -60,9 +60,10 @@ Replace with JWT/session in production.
 ## Setup
 
 ```bash
-npm install
+npm ci
 npm run build
-npm start
+npm start      # http://localhost:3000
+npm test
 ```
 
 Dev (auto-reload on file changes):
@@ -87,7 +88,8 @@ npm run dev
 | RATE_LIMIT_WINDOW_MS | 60000 | Rate limit window |
 | RATE_LIMIT_MAX | 100 | Max requests per window |
 | AI_MODEL_VERSION | 1.0.0 | Model version in results |
-| STORE_RAW_CONTENT_DEFAULT | false | Persist raw content |
+| STORE_RAW_CONTENT_DEFAULT | true unless `NODE_ENV=production` | Persist raw content |
+| SEED_DEMO_DATA | true | Seed demo conversations for `demo-user` on startup |
 | LOG_LEVEL | info | Log level |
 
 ## Docs

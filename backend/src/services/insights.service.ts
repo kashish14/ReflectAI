@@ -39,13 +39,17 @@ export class InsightsService {
   async getOverview(tenantId: string, userId: string): Promise<InsightsOverview> {
     const { data } = await analysisRepository.list(tenantId, userId, { limit: 100 });
     const completed = data.filter((a) => a.status === 'completed');
-    const recent = data.slice(0, 10).map((a) => ({
-      id: a.id,
-      conversation_id: a.conversation_id,
-      status: a.status,
-      created_at: a.created_at,
-      completed_at: a.completed_at ?? undefined,
-    }));
+    const recent = [...data]
+      .sort((a, b) => b.created_at.localeCompare(a.created_at))
+      .slice(0, 10)
+      .map((a) => ({
+        id: a.id,
+        conversation_id: a.conversation_id,
+        status: a.status,
+        created_at: a.created_at,
+        completed_at: a.completed_at ?? undefined,
+        sentiment: (a.results as { sentiment?: { aggregate?: string } } | null)?.sentiment?.aggregate,
+      }));
 
     const trend_buckets = this.buildTrendBuckets(completed);
 
