@@ -14,7 +14,7 @@ Central place for cross-cutting tests, fixtures, and performance scripts.
 
 - **Backend:** `backend/` — `npm test` (Jest). Unit: `src/**/*.test.ts`; integration: `tests/integration/*.integration.test.ts`.
 - **Analytics-engine:** `analytics-engine/` — `npm test` (Jest). Unit: `src/**/*.test.ts`; AI validation: `__tests__/ai-validation.test.ts`.
-- **Frontend:** `frontend/` — `ng test` (Jasmine/Karma or Jest per Angular setup).
+- **Frontend:** `frontend/` — `npm test` (Vitest via the Angular CLI).
 
 ## Performance Tests
 

@@ -2,7 +2,7 @@
 
 **Version:** 1.0  
 **Last Updated:** January 31, 2026  
-**Stack:** Angular 18+, TypeScript 5.x  
+**Stack:** Angular 21, TypeScript 5.x  
 **Companion:** [System Architecture](./SYSTEM_ARCHITECTURE.md)
 
 This document describes the Angular-based frontend architecture for ReflectAI, covering component structure, services, state management, API integration, chart visualization, and scalability. The app supports **uploading conversation text**, **viewing sentiment insights**, and **dashboard analytics**.
@@ -146,7 +146,7 @@ frontend/src/app/
 |--------|-------|---------|-------------|
 | Dashboard | `/dashboard` | dashboard | Analytics overview (counts, completion rate), trend chart (sentiment by day), recent analyses with links to `/analysis/:id`. Privacy notice (dismissible). |
 | Conversation list | `/conversations` | conversations | List conversations from API; cards with id prefix, date, source; link to `/conversations/:id`. |
-| New conversation | `/conversations/upload` | conversations | Textarea (max 50k chars), character count, submit → create conversation + analysis → redirect to `/analysis/:id`. Submitting state on button; hint and link to Conversations. |
+| New conversation | `/new` | conversations | Textarea (max 50k chars), character count, submit → create conversation + analysis → redirect to `/analysis/:id`. Submitting state on button; hint and link to Conversations. |
 | Conversation detail | `/conversations/:id` | conversations | Full ID, created, source. “Analyze conversation” starts analysis and redirects to `/analysis/:id`. Nav: Back to list, Dashboard. |
 | Analysis detail | `/analysis/:id` | analysis | Load analysis; poll every 2s until completed/failed. Shows status, created/completed dates. When completed: sentiment summary, clarity metrics, behavioral (avg message length), sentiment-by-message chart (description + legend; empty state if no scores). Nav: Dashboard, Conversations. |
 
@@ -301,7 +301,7 @@ export interface ApiError {
 - **Sentiment over time:** Line or bar chart (e.g. score per message or per segment).
 - **Dashboard analytics:** Line (trends), bar (comparisons), and optionally pie/donut for sentiment distribution.
 
-**Suggestion:** **ng2-charts** (Chart.js) for MVP: simple API, good for line/bar; add **ngx-charts** or **echarts** later if you need richer interactivity or accessibility.
+**Current implementation:** the stacked bar charts are plain HTML/CSS (`SentimentTrendVisualizationComponent`), so there is no chart dependency yet. A library such as ng2-charts can be added later if richer interactivity is needed.
 
 ### 6.2 Structure
 
@@ -360,7 +360,7 @@ export interface ApiError {
 | **Services** | API services per resource; domain logic in feature services; auth in core |
 | **State** | Signals + service state for MVP; NgRx if shared state grows |
 | **API** | REST client + interceptors (base URL, auth, errors); typed models and DTOs |
-| **Charts** | ng2-charts (Chart.js) or ngx-charts; lazy-loaded; presentational components |
+| **Charts** | Plain CSS bar charts today (no chart library); presentational components |
 | **Scalability** | Lazy loading, path aliases, OnPush, virtual scroll, no PII in URLs |
 
 The app enables **uploading conversation text** (conversations feature), **viewing sentiment insights** (analysis feature with sentiment summary and chart), and **dashboard analytics** (dashboard feature with overview and trend charts), with a clear path to add privacy, settings, and more analyses.

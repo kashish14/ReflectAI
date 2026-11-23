@@ -1,209 +1,118 @@
 # ReflectAI
 
-**Understand how you communicate—without giving up control of your data.**
+[![CI](https://github.com/kashish14/ReflectAI/actions/workflows/ci.yml/badge.svg)](https://github.com/kashish14/ReflectAI/actions/workflows/ci.yml)
 
-ReflectAI is a **privacy-first AI platform** for understanding *how* people communicate — emotionally, behaviorally, and structurally — without surrendering sensitive data to opaque third-party systems.
+Paste in a conversation and ReflectAI shows how it reads: sentiment per message, the emotions that come through, how readable it is, and how messages are shaped. All analysis runs locally with explainable heuristics. No text goes to a third-party AI service and no API key is needed.
 
----
+![Dashboard](docs/screenshots/dashboard.png)
 
-## Product Overview
+| Conversations | Analysis |
+|---|---|
+| ![Conversations](docs/screenshots/conversations.png) | ![Analysis](docs/screenshots/analysis.png) |
 
-ReflectAI turns raw conversation data into interpretable signals across three dimensions:
+## Features
 
-| Pillar | What we surface |
-|--------|------------------|
-| **Emotional intelligence** | Sentiment over time, tone shifts, emotional triggers, aggregate mood. |
-| **Communication clarity** | Readability scores, sentence complexity, jargon and ambiguity flags. |
-| **Behavioral trends** | Message length distribution, response patterns, activity rhythm. |
+- **Dashboard**: totals, a 7-day stacked sentiment chart, and recent analyses with their overall tone
+- **Conversations**: list with a first-line preview, detail page, and a one-click "Analyze"
+- **New conversation**: paste text (one message per line); it is saved, analyzed, and you land on the result
+- **Analysis**: overall sentiment, emotion tags (grateful, frustrated, anxious, ...), readability score, average message length, and a per-message sentiment chart
+- **Privacy endpoints**: export all of a user's data as JSON, or delete it
+- Seeded demo data (six conversations over the past week) so every screen has content on first run
 
-The product serves **individual contributors** (self-awareness and growth), **managers** (team sentiment and coaching signals), **coaches and L&D** (anonymized aggregates with consent), and **privacy-conscious enterprises** (on-prem, audit trails, data sovereignty). Revenue is subscription and enterprise—conversation data is never sold or used for advertising.
+## Tech stack
 
----
+| Part | Stack |
+|---|---|
+| `frontend/` | Angular 21 (standalone components, signals, new control flow), SCSS, Vitest |
+| `backend/` | Node.js, Express, TypeScript, Jest + Supertest. In-memory repositories, header-based demo auth |
+| `analytics-engine/` | Standalone TypeScript library: sentiment scoring, tone-shift detection, clarity score, emotional trend, behavioral signals. Jest |
 
-## What This Repository Demonstrates
+The backend runs its own lightweight pipeline in `backend/src/ai/`; `analytics-engine/` is a richer standalone library with its own tests and is not yet wired into the API.
 
-This repository is intentionally built to demonstrate:
-
-- **Privacy-first AI system design** (no PII in logs, optional raw storage, tenant isolation)
-- **Event-driven, async analysis pipelines** suitable for AI workloads
-- **Scalable modular architecture** that can evolve from a modular monolith to services
-- **Clear separation of product, platform, and AI logic**
-- **Production-minded frontend architecture** (Angular, feature-sliced, observable state)
-- **Explainable analytics over black-box AI**
-- **Enterprise readiness** (auditability, on-prem path, local-first option)
-
-This is not a toy project. It is a realistic foundation for a production product.
-
----
-
-## Architecture Summary
-
-ReflectAI uses a **layered, event-driven architecture** with clear boundaries between presentation, orchestration, AI processing, and data. The system is designed to scale horizontally, support optional local-first processing, and keep privacy and auditability first-class.
-
-**Architecture at a glance:**  
-A layered, event-driven system with async AI processing, strict tenant isolation, and privacy-by-design defaults. Built as a modular monolith for MVP velocity, with clean seams for future service extraction.
+## Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│  Clients (Web SPA, API clients, future integrations)            │
-└────────────────────────────┬────────────────────────────────────┘
-                             │
-┌────────────────────────────▼────────────────────────────────────┐
-│  API Gateway / BFF  (auth, rate limit, routing)                  │
-└────────────────────────────┬────────────────────────────────────┘
-                             │
-     ┌───────────────────────┼───────────────────────┐
-     ▼                       ▼                       ▼
-┌──────────┐          ┌──────────────┐          ┌──────────┐
-│ Ingest   │          │  Analysis    │          │ Insights │
-│ Service  │          │  Orchestrator │          │ Service  │
-└────┬─────┘          └──────┬───────┘          └────┬─────┘
-     │                       │                       │
-     │                       ▼                       │
-     │              ┌───────────────┐               │
-     │              │ AI Processing │               │
-     │              │ (Sentiment,   │               │
-     │              │  Clarity,     │               │
-     │              │  Behavioral)  │               │
-     │              └───────┬───────┘               │
-     └──────────────────────┼───────────────────────┘
-                            ▼
-┌─────────────────────────────────────────────────────────────────┐
-│  Data layer (encrypted at rest, tenant-isolated)                 │
-└─────────────────────────────────────────────────────────────────┘
+Angular SPA (:4200)
+   │  /api/*  (dev-server proxy, adds x-user-id: demo-user)
+   ▼
+Express API (:3000)  ── /v1/conversations, /v1/analyses, /v1/insights/overview, /v1/users/me/*
+   │
+   ├── services: ingest, analysis orchestrator, insights
+   ├── ai/: preprocess → sentiment, clarity, behavioral pipelines (local, no network)
+   └── repositories: in-memory, scoped by tenant + user
 ```
 
-- **Stateless API and services** — Scale behind a load balancer; state lives in the data layer and job queue.
-- **Async analysis** — Conversation analysis runs asynchronously; clients poll or receive push when complete. No long-lived request-response for heavy AI work.
-- **Modular monolith** — Service boundaries are explicit (Ingest, Orchestrator, Insights, AI). Deploy as one unit for MVP; split into services when scaling or compliance demands it.
-- **Multi-tenancy** — Tenant isolation at the data layer; no cross-tenant access in application logic.
+Requests carry a trace ID, logs are structured JSON with no message content, and each request is rate-limited per user. More detail in [docs/SYSTEM_ARCHITECTURE.md](docs/SYSTEM_ARCHITECTURE.md).
 
----
+## Getting started
 
-## Tech Stack
+Requires Node.js 20.19+ (22 or 24 recommended) and npm 10+.
 
-These choices prioritize developer velocity, explainability, and privacy guarantees over black-box scale.
+```bash
+git clone https://github.com/kashish14/ReflectAI.git
+cd ReflectAI
+npm run install:all
+```
 
-| Layer | Choices |
-|-------|--------|
-| **Frontend** | Angular 18+, TypeScript 5.x, standalone components, feature-sliced structure. Charts: ng2-charts / Chart.js. State: Signals + service-based state. |
-| **Backend** | Node.js 20+, Express, TypeScript. REST over `/v1`; structured errors; auth via headers (MVP) with path to JWT/session. |
-| **Analytics engine** | Standalone TypeScript package: sentiment scoring, tone-shift detection, clarity indicators, emotional trend analysis, behavioral signals, insight summaries. Rule-based/heuristic MVP; adapter-ready for ML/API. |
-| **Data** | In-memory repositories for MVP; replace with Postgres (or similar) and encrypted-at-rest in production. |
-| **Queue** | Optional job queue for analysis workers; sync processing supported for MVP. |
-| **Observability** | Structured JSON logs (traceId, no PII), RED metrics interface, optional OpenTelemetry. |
+Start the API and the web app in two terminals:
 
-Repositories: **frontend** (Angular SPA), **backend** (Node API + services), **analytics-engine** (sentiment, clarity, behavioral, trends, summaries). See [docs/FOLDER_STRUCTURE.md](docs/FOLDER_STRUCTURE.md) and [docs/SYSTEM_ARCHITECTURE.md](docs/SYSTEM_ARCHITECTURE.md).
+```bash
+npm run start:backend    # http://localhost:3000, seeds demo data
+npm run start:frontend   # http://localhost:4200
+```
 
----
+Open http://localhost:4200. Data lives in memory, so restarting the backend resets it to the demo seed.
 
-## Screenshots
+Optional backend settings (all have defaults; there are no secrets to configure): `PORT`, `RATE_LIMIT_MAX`, `SEED_DEMO_DATA=false`, `STORE_RAW_CONTENT_DEFAULT`. See [backend/README.md](backend/README.md#config-env).
 
-*Placeholder: add product screenshots here (dashboard, sentiment trends, clarity score, privacy dashboard).*
+## Scripts
 
-| Dashboard overview | Sentiment trend | Clarity & insights |
-|-------------------|-----------------|--------------------|
-| *Screenshot 1*     | *Screenshot 2*  | *Screenshot 3*     |
+Run from the repo root:
 
----
+| Script | What it does |
+|---|---|
+| `npm run install:all` | `npm ci` in `analytics-engine`, `backend`, `frontend` |
+| `npm run build:all` | Builds all three packages |
+| `npm run test:all` | Runs all unit and integration tests |
+| `npm run start:backend` | API with auto-reload (`ts-node-dev`) |
+| `npm run start:frontend` | Angular dev server with API proxy |
 
-## Future Roadmap
+Each package also has its own `build`, `test` and `start`/`dev` scripts.
 
-| Phase | Focus |
-|-------|--------|
-| **2026 H1** | MVP launch (manual import, emotional/clarity/behavioral analysis, privacy dashboard). Beta integrations (Slack, Gmail). Local-first proof of concept. |
-| **2026 H2** | General availability, pricing tiers, self-serve signup. Expanded integrations (Teams, Zoom, Outlook). Team tier with aggregated, anonymized insights. AI coaching layer. |
-| **2027** | Enterprise tier (on-prem, SSO, audit logs, custom taxonomies). Voice & video tone/pace analysis (opt-in, strict consent). Research & API; vertical plays (coaching, therapy, sales, support). |
-| **2028+** | Ecosystem (white-label, marketplace). Predictive insights (misalignment, burnout, conflict signals). Cross-platform intelligence where users opt in. |
-
-Roadmap is product-led; engineering keeps the architecture ready for local-first, on-prem, and multi-region when the business demands it.
-
----
-
-## Non-Goals
-
-ReflectAI intentionally does **not** aim to:
-
-- Perform covert surveillance or behavioral scoring without consent
-- Monetize user data via advertising or resale
-- Replace human judgment with opaque AI scores
-- Optimize engagement at the expense of wellbeing
-
-These constraints are deliberate and shape both product and architecture decisions.
-
----
-
-## Privacy Philosophy
-
-Privacy is not a feature—it’s a constraint that shapes the product and the architecture.
-
-- **Data minimization** — We only collect what’s needed for the analysis the user requested. No surplus metadata or cross-linking without consent.
-- **User ownership** — Users own their data. Export and delete are always available; no lock-in.
-- **Transparency** — We document what is processed, where, for how long, and by whom. Metrics and methodology are explainable.
-- **Local-first option** — Where feasible, processing runs on the user’s device. Cloud is optional; we’re building toward on-device analysis for privacy-sensitive users.
-- **No resale or ads** — Conversation data is never sold or used for advertising. Revenue is subscriptions and enterprise licensing.
-- **Auditability** — Enterprise deployments get audit logs for data access, retention, and sharing. Compliance-ready for GDPR, CCPA, HIPAA (where applicable), and SOC 2.
-
-In the codebase: optional raw content persistence, content hashing for dedup (no plaintext in logs), ephemeral AI input (in-memory only; not logged), tenant isolation, and structured logging that never includes PII or conversation content.
-
----
-
-## System Design Highlights
-
-- **Modular architecture** — Clear boundaries (API, services, AI, data) and explicit ownership. Same boundaries support a single deploy today and per-service deploys later without a rewrite.
-- **Privacy by design** — Optional raw storage, content hash for idempotency, no content in logs, tenant-scoped queries. Architecture supports local-first and on-prem.
-- **Async, queue-friendly analysis** — Analysis is job-based; API stays responsive. Workers can scale independently; we avoid long-lived request-response for AI.
-- **Observability** — Structured logs (traceId, spanId, no PII), RED metrics for APIs, pluggable metrics and tracing. We know what’s slow or broken without leaking sensitive data.
-- **Testability** — Unit tests (services, lib, AI pipelines), integration tests (API + in-memory repos), AI output validation (shape, bounds, determinism), and performance scripts. See [docs/TESTING_STRATEGY.md](docs/TESTING_STRATEGY.md).
-
----
-
-## Repository Structure
+## Project structure
 
 ```
 ReflectAI/
-├── frontend/           # Angular SPA: layout (header, sidebar), dashboard, conversations (list, detail, upload), analysis (detail, sentiment chart, clarity)
-├── backend/            # Node.js API: /v1/conversations, /v1/analyses, /v1/insights/overview, ingest, orchestrator, AI integration
-├── analytics-engine/   # Sentiment, clarity, behavioral, trends, insight summaries
-├── docs/               # Product vision, system architecture, EDL, frontend/backend/folder docs, testing strategy
-├── tests/              # Fixtures, performance scripts (k6 + Node)
-└── config/             # Env and CI (optional)
+├── frontend/          Angular app: layout, dashboard, conversations, analysis
+├── backend/           Express API: routes, services, ai pipelines, repositories, seed
+├── analytics-engine/  Standalone analysis library
+├── tests/             Shared fixtures and load-test scripts (k6 / Node)
+└── docs/              Product vision, architecture, decision log, testing strategy
 ```
 
-**Frontend routes:** `/dashboard` (overview, trend chart, recent analyses), `/conversations` (list), `/conversations/upload` (new conversation + auto analysis), `/conversations/:id` (detail + “Analyze”), `/analysis/:id` (analysis detail with sentiment, clarity, behavioral, chart). See [Frontend Architecture](docs/FRONTEND_ARCHITECTURE.md) and [COMPONENTS](frontend/src/app/COMPONENTS.md).
-
-Deep dives: [Product Vision](docs/PRODUCT_VISION.md), [System Architecture](docs/SYSTEM_ARCHITECTURE.md), [Engineering Decision Log](docs/ENGINEERING_DECISION_LOG.md), [Testing Strategy](docs/TESTING_STRATEGY.md), [Frontend Architecture](docs/FRONTEND_ARCHITECTURE.md), [Backend Architecture](docs/BACKEND_ARCHITECTURE.md), [Folder Structure](docs/FOLDER_STRUCTURE.md).
-
----
-
-## Quick Start
-
-**Install all dependencies** (from repo root): `npm run install:all`
-
-**Backend** (starts on port 3000; seeds demo data on startup)
+## Testing
 
 ```bash
-cd backend && npm install && npm run build && npm start
+npm run test:all
 ```
 
-**Frontend** (starts on port 4200; proxies `/api` to backend; sends demo user headers)
+- `analytics-engine`: scorer, clarity score, and output-shape validation (20 tests)
+- `backend`: pipelines, middleware, privacy helpers, and API integration tests with Supertest (29 tests)
+- `frontend`: component and interceptor tests on Vitest (3 tests)
 
-```bash
-cd frontend && npm install && npm start
-```
+CI runs install, build and test for each package on Node 22 ([.github/workflows/ci.yml](.github/workflows/ci.yml)). Load-test scripts are in [tests/performance](tests/performance/README.md).
 
-Then open **http://localhost:4200**. The backend seeds 2 conversations and 2 completed analyses for user `demo-user` so you can see all components with data: **Dashboard** (overview, trend chart, recent analyses), **Conversations** (list with 2 items), **Conversation detail** (click a conversation), **Analysis detail** (click an analysis from dashboard or recent list; shows sentiment, clarity, behavioral, sentiment-by-message chart).
+## Roadmap
 
-**Analytics engine** (standalone package)
+- Use `analytics-engine` from the backend so the API returns clarity grades, tone shifts and trends
+- Persist data in Postgres instead of memory
+- Replace demo header auth with real sign-in
+- Optional adapter for an LLM provider, kept off by default
 
-```bash
-cd analytics-engine && npm install && npm run build
-```
+## Docs
 
-**API base:** Frontend calls `/api/v1` by default (conversations, analyses, insights/overview). Backend uses `x-user-id` and `x-tenant-id` headers for auth (MVP). Set `STORE_RAW_CONTENT_DEFAULT=true` (or use dev default) so analysis can read conversation content. See [Backend Architecture](docs/BACKEND_ARCHITECTURE.md) and [Frontend Architecture](docs/FRONTEND_ARCHITECTURE.md).
-
----
+[Product vision](docs/PRODUCT_VISION.md) · [System architecture](docs/SYSTEM_ARCHITECTURE.md) · [Backend](docs/BACKEND_ARCHITECTURE.md) · [Frontend](docs/FRONTEND_ARCHITECTURE.md) · [Engineering decision log](docs/ENGINEERING_DECISION_LOG.md) · [Testing strategy](docs/TESTING_STRATEGY.md)
 
 ## License
 
-Proprietary. All rights reserved.
+[MIT](LICENSE)

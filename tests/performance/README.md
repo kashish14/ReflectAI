@@ -11,6 +11,7 @@ Performance tests for API throughput and latency. Run against a local or test ba
 
 - Backend running at `BASE_URL` (default `http://localhost:3000`)
 - Set `x-user-id` (and optionally `x-tenant-id`) for authenticated endpoints
+- Raise the per-user rate limit, or most requests will get `429`: start the backend with `RATE_LIMIT_MAX=1000000 npm start`
 
 ## k6 (optional)
 

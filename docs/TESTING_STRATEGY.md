@@ -39,7 +39,7 @@ This document describes the testing strategy for ReflectAI: unit tests, integrat
 | **Backend lib** | Logger (no PII), privacy (contentHash, sanitizeForLog), trace | Jest / Vitest |
 | **Backend API** | Route handlers with mocked services; validation middleware; error middleware | Jest / Vitest + supertest |
 | **Analytics-engine** | Scorer, aggregate, tone-shift detector, clarity indicators, emotional trend, behavioral signals, insight summaries | Jest / Vitest |
-| **Frontend** | Components (inputs/outputs), services (mocked HTTP), pipes | Jasmine/Karma or Jest (Angular) |
+| **Frontend** | Components (inputs/outputs), services (mocked HTTP), pipes | Vitest (Angular CLI `unit-test` builder) |
 
 ### 2.2 Principles
 
