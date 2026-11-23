@@ -13,7 +13,7 @@
 import { preprocess } from './preprocessing';
 import { scoreSegments } from './sentiment/scorer';
 import { aggregateSentiment } from './sentiment/aggregate';
-import { detectToneShifts } from './tone-shift/detector';
+import { detectToneShifts, type ToneShiftOptions } from './tone-shift/detector';
 import { generateClarityIndicators } from './clarity/indicators';
 import { computeClarityScore } from './clarity/clarity-score';
 import { analyzeEmotionalTrend } from './trends/emotional-trend';
@@ -23,7 +23,6 @@ import { buildInsightSummaries } from './insights/summaries';
 import type {
   EngineInput,
   SentimentEngineResult,
-  ToneShiftOptions,
   ProcessedAnalytics,
   SegmentSentiment,
   ToneShift,
