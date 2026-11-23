@@ -3,9 +3,9 @@
  * Privacy: optional raw storage; content hash for dedup; no content in logs.
  */
 
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID as uuidv4 } from 'crypto';
 import { config } from '../config';
-import { conversationRepository } from '../repositories/conversation.repository';
+import { conversationRepository, type ConversationRecord } from '../repositories/conversation.repository';
 import { contentHash } from '../lib/privacy';
 import { logger } from '../lib/logger';
 
@@ -15,6 +15,20 @@ export interface ConversationResponse {
   user_id: string;
   source: string;
   created_at: string;
+  /** First line of the conversation (max 80 chars); only present when raw content is stored. */
+  preview?: string;
+}
+
+function toResponse(record: ConversationRecord): ConversationResponse {
+  const firstLine = record.raw_content?.trim().split('\n')[0];
+  return {
+    id: record.id,
+    tenant_id: record.tenant_id,
+    user_id: record.user_id,
+    source: record.source,
+    created_at: record.created_at,
+    preview: firstLine && firstLine.length > 80 ? `${firstLine.slice(0, 79)}…` : firstLine,
+  };
 }
 
 export interface ListConversationsResponse {
@@ -52,13 +66,7 @@ export class IngestService {
       storeRaw,
     });
 
-    return {
-      id: record.id,
-      tenant_id: record.tenant_id,
-      user_id: record.user_id,
-      source: record.source,
-      created_at: record.created_at,
-    };
+    return toResponse(record);
   }
 
   async getConversation(
@@ -68,13 +76,7 @@ export class IngestService {
   ): Promise<ConversationResponse | null> {
     const record = await conversationRepository.getById(tenantId, userId, id);
     if (!record) return null;
-    return {
-      id: record.id,
-      tenant_id: record.tenant_id,
-      user_id: record.user_id,
-      source: record.source,
-      created_at: record.created_at,
-    };
+    return toResponse(record);
   }
 
   async listConversations(
@@ -87,13 +89,7 @@ export class IngestService {
       limit: options.limit,
     });
     return {
-      data: data.map((r) => ({
-        id: r.id,
-        tenant_id: r.tenant_id,
-        user_id: r.user_id,
-        source: r.source,
-        created_at: r.created_at,
-      })),
+      data: data.map(toResponse),
       next_cursor,
     };
   }

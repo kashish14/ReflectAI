@@ -29,3 +29,6 @@ coverage/
 
 # Optional
 *.local
+
+# Angular cache
+.angular/

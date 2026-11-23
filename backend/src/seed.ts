@@ -1,92 +1,88 @@
 /**
- * Seed in-memory repositories with demo data so all UI components can be seen with data.
- * Uses demo user: tenantId 'default', userId 'demo-user'.
- * Run once at server startup.
+ * Seed the in-memory repositories with demo data for user 'demo-user' (tenant 'default').
+ * Each conversation is analyzed with the real local pipeline, and timestamps are spread
+ * over the past week so the dashboard trend chart has something to show.
  */
 
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID as uuidv4 } from 'crypto';
 import { conversationRepository } from './repositories/conversation.repository';
 import { analysisRepository } from './repositories/analysis.repository';
 import { contentHash } from './lib/privacy';
+import { runAnalysis } from './ai';
+import { config } from './config';
 
 const DEMO_TENANT = 'default';
 const DEMO_USER = 'demo-user';
+const DAY_MS = 24 * 60 * 60 * 1000;
 
-const DEMO_CONVERSATION_1 = `Hi, thanks for reaching out!
-I really appreciate your help with this.
-Let me know if you need anything else.
-Have a great day!`;
+const DEMO_CONVERSATIONS: Array<{ daysAgo: number; text: string }> = [
+  {
+    daysAgo: 6,
+    text: `Hi, thanks for reaching out!
+I really appreciate your help with the onboarding docs.
+They were clear and easy to follow.
+Let me know if you need anything else from me.`,
+  },
+  {
+    daysAgo: 5,
+    text: `Quick question about the project timeline.
+We need to align on the deliverables before Friday.
+Can we schedule a call tomorrow morning?
+I want to make sure nothing is blocked.`,
+  },
+  {
+    daysAgo: 4,
+    text: `The release slipped again and I am frustrated.
+The build broke twice and nobody flagged it.
+This is a problem we keep having.
+Honestly I am worried we will miss the deadline.`,
+  },
+  {
+    daysAgo: 3,
+    text: `Sorry for the confusion yesterday.
+I think we fixed the pipeline issue.
+The tests are passing now, which is great.
+Thanks for staying late to help.`,
+  },
+  {
+    daysAgo: 1,
+    text: `Can you review the design proposal when you get a chance?
+I tried to keep it short.
+Happy to walk through it on a call.
+Some parts are still unclear to me, so feedback is welcome.`,
+  },
+  {
+    daysAgo: 0,
+    text: `Great work on the demo today!
+The team loved the new dashboard.
+I am excited about the next sprint.
+Thank you all for the effort.`,
+  },
+];
 
-const DEMO_CONVERSATION_2 = `Quick question about the project timeline.
-We need to align on the deliverables.
-Can we schedule a call tomorrow?`;
+export async function seedDemoData(now: Date = new Date()): Promise<void> {
+  for (const { daysAgo, text } of DEMO_CONVERSATIONS) {
+    const at = new Date(now.getTime() - daysAgo * DAY_MS).toISOString();
+    const conversationId = uuidv4();
+    const conversation = await conversationRepository.create(DEMO_TENANT, DEMO_USER, conversationId, {
+      contentHash: contentHash(text),
+      rawContent: text,
+      storeRaw: true,
+    });
+    conversation.created_at = at;
 
-function seedConversations(): { id: string }[] {
-  const ids: { id: string }[] = [];
-  const conv1Id = uuidv4();
-  const conv2Id = uuidv4();
-
-  conversationRepository.create(DEMO_TENANT, DEMO_USER, conv1Id, {
-    contentHash: contentHash(DEMO_CONVERSATION_1),
-    rawContent: DEMO_CONVERSATION_1,
-    storeRaw: true,
-  });
-  ids.push({ id: conv1Id });
-
-  conversationRepository.create(DEMO_TENANT, DEMO_USER, conv2Id, {
-    contentHash: contentHash(DEMO_CONVERSATION_2),
-    rawContent: DEMO_CONVERSATION_2,
-    storeRaw: true,
-  });
-  ids.push({ id: conv2Id });
-
-  return ids;
-}
-
-function seedAnalyses(conversationIds: string[]): { id: string; conversationId: string }[] {
-  const result: { id: string; conversationId: string }[] = [];
-
-  conversationIds.forEach((convId) => {
     const analysisId = uuidv4();
-    analysisRepository.create(DEMO_TENANT, DEMO_USER, analysisId, convId);
-
-    analysisRepository.updateStatus(
+    const analysis = await analysisRepository.create(DEMO_TENANT, DEMO_USER, analysisId, conversationId);
+    analysis.created_at = at;
+    const { results, model_version } = await runAnalysis(text, { modelVersion: config.aiModelVersion });
+    await analysisRepository.updateStatus(
       DEMO_TENANT,
       DEMO_USER,
       analysisId,
       'completed',
-      {
-        sentiment: {
-          scores: [
-            { message_index: 0, label: 'positive', score: 0.8 },
-            { message_index: 1, label: 'positive', score: 0.9 },
-            { message_index: 2, label: 'neutral', score: 0.1 },
-            { message_index: 3, label: 'positive', score: 0.7 },
-          ],
-          aggregate: 'Overall positive tone with gratitude and cooperation.',
-          emotional_labels: ['grateful', 'friendly', 'cooperative'],
-        },
-        clarity: {
-          readability: 8.2,
-          flags: ['Clear sentence structure', 'Appropriate length'],
-        },
-        behavioral: {
-          message_length_avg: 42,
-          message_count: 4,
-        },
-      },
-      new Date().toISOString(),
-      '1.0.0'
+      results,
+      at,
+      model_version
     );
-
-    result.push({ id: analysisId, conversationId: convId });
-  });
-
-  return result;
-}
-
-export function seedDemoData(): void {
-  const conversations = seedConversations();
-  const conversationIds = conversations.map((c) => c.id);
-  seedAnalyses(conversationIds);
+  }
 }

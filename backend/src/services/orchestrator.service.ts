@@ -3,7 +3,7 @@
  * Privacy: content passed to AI in memory only; not logged.
  */
 
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID as uuidv4 } from 'crypto';
 import { analysisRepository } from '../repositories/analysis.repository';
 import { conversationRepository } from '../repositories/conversation.repository';
 import { runAnalysis } from '../ai';

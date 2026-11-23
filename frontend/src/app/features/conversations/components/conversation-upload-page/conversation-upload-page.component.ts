@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { ConversationInputComponent } from '../conversation-input/conversation-input.component';
 import { UploadInstructionsComponent } from '../upload-instructions/upload-instructions.component';
 import { UploadHintComponent } from '../upload-hint/upload-hint.component';
@@ -13,7 +13,6 @@ import type { Analysis } from '../../../../models/analysis.model';
   standalone: true,
   imports: [
     CommonModule,
-    RouterLink,
     ConversationInputComponent,
     UploadInstructionsComponent,
     UploadHintComponent,

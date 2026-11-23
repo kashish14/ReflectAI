@@ -2,17 +2,16 @@
   "name": "reflectai",
   "version": "1.0.0",
   "private": true,
-  "description": "ReflectAI — privacy-first AI platform for conversation insights",
+  "description": "Privacy-first conversation insights: sentiment, clarity and behavioral signals computed locally",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.19.0"
+  },
   "scripts": {
-    "install:all": "npm run install:backend && npm run install:frontend && npm run install:analytics",
-    "install:backend": "cd backend && npm install",
-    "install:frontend": "cd frontend && npm install",
-    "install:analytics": "cd analytics-engine && npm install",
-    "build:backend": "cd backend && npm run build",
-    "build:frontend": "cd frontend && npm run build",
-    "build:analytics": "cd analytics-engine && npm run build",
-    "build:all": "npm run build:analytics && npm run build:backend && npm run build:frontend",
-    "start:backend": "cd backend && npm start",
-    "start:frontend": "cd frontend && npm start"
+    "install:all": "npm ci --prefix analytics-engine && npm ci --prefix backend && npm ci --prefix frontend",
+    "build:all": "npm run build --prefix analytics-engine && npm run build --prefix backend && npm run build --prefix frontend",
+    "test:all": "npm test --prefix analytics-engine && npm test --prefix backend && npm test --prefix frontend",
+    "start:backend": "npm run dev --prefix backend",
+    "start:frontend": "npm start --prefix frontend"
   }
 }
