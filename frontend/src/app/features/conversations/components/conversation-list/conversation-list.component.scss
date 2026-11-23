@@ -47,13 +47,17 @@
 }
 
 .conversation-list__id {
-  font-family: var(--reflect-font-mono);
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   font-size: var(--reflect-text-sm);
-  color: var(--reflect-text-secondary);
+  color: var(--reflect-text-primary, inherit);
 }
 
 .conversation-list__meta {
-  flex: 1;
+  white-space: nowrap;
   font-size: var(--reflect-text-sm);
   color: var(--reflect-text-muted);
 }

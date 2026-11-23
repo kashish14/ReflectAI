@@ -11,6 +11,8 @@ export interface Conversation {
     participants?: string[];
   };
   created_at: string;
+  /** First line of the conversation, when raw content is stored. */
+  preview?: string;
 }
 
 export interface CreateConversationRequest {

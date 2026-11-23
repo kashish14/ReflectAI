@@ -77,7 +77,7 @@ Modular Angular components for ReflectAI. All components are **standalone** and 
 | `/` | redirect | → `/dashboard` |
 | `/dashboard` | DashboardComponent | Overview, trend chart, recent analyses. |
 | `/conversations` | ConversationListComponent | List of conversations. |
-| `/conversations/upload` | ConversationUploadPageComponent | New conversation + auto analysis → redirect to analysis. |
+| `/new` | ConversationUploadPageComponent | New conversation + auto analysis → redirect to analysis. |
 | `/conversations/:id` | ConversationDetailPageComponent | Conversation detail + “Analyze” → analysis. |
 | `/analysis/:id` | AnalysisDetailPageComponent | Analysis detail; polling; sentiment, clarity, behavioral, chart. |
 

@@ -11,7 +11,7 @@
       @for (c of conversations(); track c.id) {
         <li class="conversation-list__li">
           <a [routerLink]="['/conversations', c.id]" class="conversation-list__card">
-            <span class="conversation-list__id">{{ c.id.slice(0, 8) }}…</span>
+            <span class="conversation-list__id">{{ c.preview || c.id.slice(0, 8) + '…' }}</span>
             <span class="conversation-list__meta">{{ formatDate(c.created_at) }} · {{ c.source }}</span>
             <span class="conversation-list__action">View →</span>
           </a>

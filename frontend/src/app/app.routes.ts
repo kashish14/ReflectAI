@@ -14,7 +14,7 @@ export const routes: Routes = [
       { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
       { path: 'dashboard', component: DashboardComponent },
       { path: 'conversations', component: ConversationListComponent },
-      { path: 'conversations/upload', component: ConversationUploadPageComponent },
+      { path: 'new', component: ConversationUploadPageComponent },
       { path: 'conversations/:id', component: ConversationDetailPageComponent },
       { path: 'analysis/:id', component: AnalysisDetailPageComponent },
     ],

@@ -7,6 +7,7 @@ export interface RecentAnalysisItem {
   status: string;
   created_at: string;
   completed_at?: string | null;
+  sentiment?: string;
 }
 
 export interface InsightsOverview {

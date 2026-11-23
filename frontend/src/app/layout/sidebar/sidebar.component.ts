@@ -19,6 +19,6 @@ export class SidebarComponent {
   readonly navItems: NavItem[] = [
     { label: 'Dashboard', route: '/dashboard', icon: '📊' },
     { label: 'Conversations', route: '/conversations', icon: '💬' },
-    { label: 'New conversation', route: '/conversations/upload', icon: '➕' },
+    { label: 'New conversation', route: '/new', icon: '➕' },
   ];
 }

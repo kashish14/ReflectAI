@@ -23,7 +23,7 @@ export class PrivacyNoticeComponent {
 
   readonly defaultTitle = 'Your privacy matters';
   readonly message =
-    'ReflectAI processes your conversations only when you choose. We do not sell your data. You can export or delete your data anytime from the Privacy dashboard.';
+    'ReflectAI processes your conversations only when you choose. We do not sell your data. Analysis runs on your own server with local heuristics; no text is sent to third-party AI services.';
 
   onDismiss(): void {
     this.dismissed.emit();

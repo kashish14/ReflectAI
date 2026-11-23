@@ -51,3 +51,19 @@
 .sidebar__label {
   font-size: var(--reflect-text-sm);
 }
+
+@media (max-width: 768px) {
+  .sidebar {
+    padding: var(--reflect-spacing-sm);
+  }
+
+  .sidebar__list {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .sidebar__link {
+    gap: var(--reflect-spacing-xs);
+    padding: var(--reflect-spacing-sm);
+  }
+}

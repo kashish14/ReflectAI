@@ -15,6 +15,8 @@ export class ConversationMetaComponent {
   createdAt = input.required<string>();
   /** Source (e.g. manual, slack) */
   source = input.required<string>();
+  /** First line of the conversation, if stored. */
+  preview = input<string | undefined>();
 
   formatDate(iso: string): string {
     try {

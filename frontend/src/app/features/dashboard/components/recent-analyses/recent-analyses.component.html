@@ -11,7 +11,7 @@
           <a [routerLink]="['/analysis', item.id]" class="recent-analyses__link">
             <span class="recent-analyses__id">{{ item.id.slice(0, 8) }}…</span>
             <span class="recent-analyses__meta">
-              {{ formatDate(item.created_at) }} · {{ item.status }}
+              {{ formatDate(item.created_at) }} · {{ item.status }}@if (item.sentiment) { · <span [class]="'recent-analyses__sentiment recent-analyses__sentiment--' + item.sentiment">{{ item.sentiment }}</span>}
             </span>
           </a>
         </li>
